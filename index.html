@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="yt">
+  <head>
+    <meta charset="utf-8">
+    <title>YT</title>
+  </head>
+  <body>
+    <header class="header" role="banner">
+    </header>
+
+    <ng-view></ng-view>
+
+    <!-- Vendor libraries -->
+    <script src="lib/jquery-v1.11.1.js"></script>
+    <script src="lib/angular-v1.2.22.js"></script>
+    <script src="lib/angular-route-v1.2.22.js"></script>
+    <script src="lib/angular-sanitize-v1.2.22.js"></script>
+    <!-- Application Files -->
+    <script src="app.module.js"></script>
+    <script src="app.config.js"></script>
+
+    <script src="main/main.controller.js"></script>
+    <script src="item/item.controller.js"></script>
+  </body>
+</html>
