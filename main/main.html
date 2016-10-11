@@ -1,18 +1,12 @@
 <div ng-app='main' ng-controller="mainCtrl">
-    <ul>
-        <li ng-click="makeAjax('hour')">За последний час</li>
-        <li ng-click="makeAjax('today')">За сегодня</li>
-        <li ng-click="makeAjax('week')">За эту неделю</li>
-        <li ng-click="makeAjax('mounth')">За этот месяц</li>
-        <li ng-click="makeAjax('year')">За этот год</li>
-        <li ng-click="makeAjax('alltime')">За все время</li>
-    </ul>
-    <h1>Main</h1>
+
     <ul>
         <li ng-repeat="item in vid[type]">
-            <p class="title">{{ item.title }}</p>
+            <p class="title"><h1>{{ item.title }}</h1></p>
+            <!--<p class="author">{{ item.author }}</p>-->
             <a ng-href="#/item/{{ item.id }}"><img ng-src="{{ item.ico }}" alt="yt"></a>
-            <p class="views">{{ item.views | myFormat }}</p>
+            <p class="views"><a class="rm" href="">{{ item.views | myFormat }} views</a></p>
+            <div class="dline"></div>
         </li>
     </ul>
 </div>

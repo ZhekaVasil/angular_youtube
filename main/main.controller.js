@@ -1,9 +1,15 @@
 angular.module('main',[]).controller('mainCtrl', function ($rootScope, $scope, $http) {
 
-    $scope.makeAjax = function (myValue) {
+    $rootScope.makeAjax = function (myValue, double) {
+        if(double){
+        delete $rootScope.vid[myValue];
+            $rootScope.goo=true;
+        }
         if($rootScope.vid[myValue]){
             $rootScope.type = myValue;
         } else {
+            $rootScope.goo=true;
+            $rootScope.type = myValue;
             $http({
                 method: 'GET',
                 url: 'parser.php',
@@ -12,21 +18,23 @@ angular.module('main',[]).controller('mainCtrl', function ($rootScope, $scope, $
             }).then(function(responce){
                 console.log(responce.data);
                 $rootScope.vid[myValue] = responce.data.vid;
-                if($rootScope.vid[myValue].length==0 || responce.data.vid.length==0 ){
-                    $scope.makeAjax(myValue)
+                if(!$rootScope.vid[myValue][0]){
+                    console.log('inside');
+                    $rootScope.makeAjax(myValue, true)
+                } else {
+                    $rootScope.goo=false;
                 }
-                $rootScope.views = responce.data.views;
-                $rootScope.type = myValue;
+
             }, function(){
-                $scope.makeAjax(myValue)
+                $rootScope.makeAjax(myValue)
             });
+
         }
 
     };
-
     if(!$rootScope.vid){
         $rootScope.vid = {};
-        $scope.makeAjax('alltime')
+        $rootScope.makeAjax('alltime')
     }
 
 

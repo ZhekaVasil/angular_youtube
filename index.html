@@ -2,13 +2,57 @@
 <html ng-app="yt">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/default/default.css" type="text/css" media="screen" />
     <title>YT</title>
   </head>
-  <body>
-    <header class="header" role="banner">
-    </header>
+  <body id="home">
+  <svg>
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+
+      </filter>
+    </defs>
+  </svg>
+  <div class="gooTable" ng-if="goo">
+    <div class="gooCell">
+      <div class="container goo2">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="wrapper">
+  <header>
+    <div id="logo">
+      <h1>YouTube  <span id="srt">TOP</span></span></h1>
+      <div id="tagline">
+        <h2>by views</h2>
+      </div>
+    </div>
+    <nav ng-controller="mainCtrl">
+      <ul>
+        <li ng-click="makeAjax('hour')" ng-class="type  == 'hour' ? 'active' : ''"><a href="../../">hour</a></li>
+        <li ng-click="makeAjax('today')" ng-class="type  == 'today' ? 'active' : ''"><a href="../../">today</a></li>
+        <li ng-click="makeAjax('week')" ng-class="type  == 'week' ? 'active' : ''"><a href="../../">week</a></li>
+        <li ng-click="makeAjax('mounth')" ng-class="type  == 'mounth' ? 'active' : ''"><a href="../../">mounth</a></li>
+        <li ng-click="makeAjax('year')" ng-class="type  == 'year' ? 'active' : ''"><a href="../../">year</a></li>
+        <li ng-click="makeAjax('alltime')" ng-class="type  == 'alltime' ? 'active' : ''"><a href="../../" >all time</a></li>
+      </ul>
+    </nav>
+  </header>
+    <div class="dline" style="width: 100%; margin: 0; max-width: none"></div>
+
 
     <ng-view></ng-view>
+  </div>
 
     <!-- Vendor libraries -->
     <script src="lib/jquery-v1.11.1.js"></script>
@@ -18,7 +62,6 @@
     <!-- Application Files -->
     <script src="app.module.js"></script>
     <script src="app.config.js"></script>
-
     <script src="main/main.controller.js"></script>
     <script src="item/item.controller.js"></script>
   </body>

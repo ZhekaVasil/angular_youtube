@@ -55,15 +55,20 @@ foreach ($matches as $value)
 {
     if ($str != "") {$str .= ",";}
 
-    $data = file_get_contents("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKW1tr_PpkXur3m9X2y-jKEvUCJ2JurlY&part=snippet,statistics&id=".$value);
+    $data = file_get_contents("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKW1tr_PpkXur3m9X2y-jKEvUCJ2JurlY&part=snippet,contentDetails,statistics&id=".$value);
     $json = json_decode($data);
     $thumbnail = $json->items[0]->snippet->thumbnails->high->url;
     $title = $json->items[0]->snippet->title;
     $title = str_replace('"',' ', $title);
     $views = $json->items[0]->statistics->viewCount;
+   /* $authorId = $json->items[0]->snippet->channelId;
+    $data2= file_get_contents("https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=".$authorId."&key=AIzaSyDKW1tr_PpkXur3m9X2y-jKEvUCJ2JurlY");
+    $json2 = json_decode($data2);
+    $author = $json2->items[0]->snippet->title;*/
     $str .= '{"id":"'  . $value . '",';
     $str .= '"ico":"'. $thumbnail. '",';
     $str .= '"views":"'. $views. '",';
+    /*$str .= '"author":"'. $author. '",';*/
     $str .= '"title":"'. $title. '"}';
 
 }
