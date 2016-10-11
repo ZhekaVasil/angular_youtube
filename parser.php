@@ -35,19 +35,21 @@ if(isset($_GET['type'])){
 }
 
 $document = phpQuery::newDocument($content);
-$list_elements = $document->find('img[width=196]');
+$list_elements = $document->find('.yt-lockup-dismissable');
 $matches =[];
+$authors =[];
 foreach ($list_elements as $element)
 {
     $title = NULL;
-    if($title = pq($element)->attr('data-thumb')){
-        $title = pq($element)->attr('data-thumb');
+    if($title = pq($element)->find('img[width=196]')->attr('data-thumb')){
+        $title = pq($element)->find('img[width=196]')->attr('data-thumb');
     } else {
-        $title = pq($element)->attr('src');
+        $title = pq($element)->find('img[width=196]')->attr('src');
     }
-
+    $author = pq($element)->find('.yt-lockup-byline a')->text();
     preg_match_all("|(vi/)(.{11})|",$title, $out,PREG_SET_ORDER);
-    $matches[] = $out[0][2];
+    $pair = [$out[0][2],$author ] ;
+    $matches[] = $pair;
 
 }
 $str='';
@@ -55,20 +57,25 @@ foreach ($matches as $value)
 {
     if ($str != "") {$str .= ",";}
 
-    $data = file_get_contents("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKW1tr_PpkXur3m9X2y-jKEvUCJ2JurlY&part=snippet,contentDetails,statistics&id=".$value);
+    $data = file_get_contents("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKW1tr_PpkXur3m9X2y-jKEvUCJ2JurlY&part=snippet,contentDetails,statistics&id=".$value[0]);
     $json = json_decode($data);
     $thumbnail = $json->items[0]->snippet->thumbnails->high->url;
     $title = $json->items[0]->snippet->title;
-    $title = str_replace('"',' ', $title);
     $views = $json->items[0]->statistics->viewCount;
+
+
+    $title = str_replace('"',' ', $title);
+    $author = str_replace('"',' ', $value[1]);
+
+
    /* $authorId = $json->items[0]->snippet->channelId;
     $data2= file_get_contents("https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=".$authorId."&key=AIzaSyDKW1tr_PpkXur3m9X2y-jKEvUCJ2JurlY");
     $json2 = json_decode($data2);
     $author = $json2->items[0]->snippet->title;*/
-    $str .= '{"id":"'  . $value . '",';
+    $str .= '{"id":"'  . $value[0] . '",';
     $str .= '"ico":"'. $thumbnail. '",';
     $str .= '"views":"'. $views. '",';
-    /*$str .= '"author":"'. $author. '",';*/
+    $str .= '"author":"'. $author. '",';
     $str .= '"title":"'. $title. '"}';
 
 }
