@@ -1,0 +1,12 @@
+<div ng-app='main' ng-controller="mainCtrl">
+
+    <ul>
+        <li ng-repeat="item in vid.year">
+            <p class="title"><h1>{{ item.title }}</h1></p>
+            <p class="author">{{ item.author }}</p>
+            <a ng-href="#/item/{{ item.id }}"><img ng-src="{{ item.ico }}" alt="yt"></a>
+            <p class="views"><a class="rm" href="">{{ item.views | myFormat }} views</a></p>
+            <div class="dline"></div>
+        </li>
+    </ul>
+</div>
